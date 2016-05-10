@@ -16,6 +16,15 @@ logger = logging.getLogger('django.request')
 
 
 class ExceptionMiddleware(object):
+    """Middleware to convert known exceptions to HTTP responses.
+
+    E.g. converts ``Http404`` to a 404 response, and the same for other known
+    exceptions.
+
+    This middleware is always automatically applied as the outermost
+    middleware, in order to ensure that any known exceptions raised by other
+    middleware are converted to the appropriate HTTP response.
+    """
     def __init__(self, get_response, handler=None):
         from django.core.handlers.base import BaseHandler
         self.get_response = get_response
